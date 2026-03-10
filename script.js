@@ -22,12 +22,26 @@ const btnEquals = document.querySelector('#equals');
 const btnClear = document.querySelector('#clear');
 const btnDelete = document.querySelector('#delete');
 
+const numberContainer = document.querySelector('.container')
+
 
 // ALL THE BUTTONS READY
 
 
-let firstNumber;
+let firstNumber = "";
 let operator;
 let lastNumber;
 
+function loadScreenFirst(num) {
+    display.innerText = num;
+}
 
+numberContainer.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!e.target.classList.contains('btn-number')) {
+        return;
+    }
+    const number = Number(e.target.textContent);
+    firstNumber += `${number}`;
+    loadScreenFirst(firstNumber);
+});
