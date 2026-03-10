@@ -54,8 +54,9 @@ function handleFirstInput(e) {
 
 numberContainer.addEventListener('click', handleFirstInput)
 
-function switchToSecondVal() {
-    numberContainer.removeEventListener('click', handleFirstInput)
+function switchToSecondVal(op) {
+    numberContainer.removeEventListener('click', handleFirstInput);
+    if (op !== undefined) { return };
     numberContainer.addEventListener('click', (e) => {
         e.preventDefault();
         if (!e.target.classList.contains('btn-number')) {
@@ -65,15 +66,16 @@ function switchToSecondVal() {
         lastNumber += `${number}`;
         loadScreen(lastNumber);
         return lastNumber;
-    });
+    })
+
 }
 
 btnAdd.addEventListener('click', () => {
     if (firstNumber === "") {
         return;
     }
-    operator = 0;
-    switchToSecondVal();
+    switchToSecondVal(operator);
+    operator = 1;
     return operator;
 
 })
@@ -81,8 +83,8 @@ btnSubtract.addEventListener('click', () => {
     if (firstNumber === "") {
         return;
     }
-    operator = 1;
-    switchToSecondVal();
+    switchToSecondVal(operator);
+    operator = 2;
     return operator
 
 })
@@ -90,22 +92,22 @@ btnMultiply.addEventListener('click', () => {
     if (firstNumber === "") {
         return;
     }
-    operator = 2;
-    switchToSecondVal();
+    switchToSecondVal(operator);
+    operator = 3;
     return operator
 })
 btnDivide.addEventListener('click', () => {
     if (firstNumber === "") {
         return;
     }
-    operator = 3;
-    switchToSecondVal();
+    switchToSecondVal(operator);
+    operator = 4;
     return operator
 })
 
 
 btnEquals.addEventListener("click", () => {
     const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
-    let result = operatorArr[operator]();
+    let result = operatorArr[operator - 1]();
     loadScreen(result);
 })
