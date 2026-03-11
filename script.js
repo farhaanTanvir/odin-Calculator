@@ -126,8 +126,6 @@ function buttonEquals() {
         const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
         let result = operatorArr[operator - 1]();
         loadScreen(result);
-        secondTimer = true;
-        
         firstNumber = result;
         result = 0;
         operator = undefined;
@@ -146,6 +144,9 @@ function handleFirstInputAndMore() {
     numberContainer.removeEventListener('click', handleSecondInput);
     numberContainer.addEventListener('click', handleFirstInput);
 }
-btnClear.addEventListener("click", handleFirstInputAndMore)
+btnClear.addEventListener("click", () => {
+    handleFirstInputAndMore();
+
+})
 
 
