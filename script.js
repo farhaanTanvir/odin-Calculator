@@ -32,7 +32,6 @@ let firstNumber = "";
 let operator;
 let lastNumber = "";
 let eventExists = false;
-
 let conditionMovedOn = false;
 
 const ops = ["add", "subtract", "multiply", "divide"]
@@ -122,16 +121,31 @@ btnDivide.addEventListener('click', opButton4);
 
 
 function buttonEquals() {
-    const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
-    let result = operatorArr[operator - 1]();
-    loadScreen(result);
-    firstNumber = result;
-    result = 0;
-    operator = undefined;
-    lastNumber = "";
+    if (firstNumber !== "" && lastNumber !== "" && operator !== undefined) {
+        if (Number(lastNumber) === 0 && operator === 4) { alert("You cannot divide by zero."); return }
+        const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
+        let result = operatorArr[operator - 1]();
+        loadScreen(result);
+        secondTimer = true;
+        
+        firstNumber = result;
+        result = 0;
+        operator = undefined;
+        lastNumber = "";
 
+    } else (alert("You haven't entered all values!"))
 }
 
 btnEquals.addEventListener("click", buttonEquals);
+function handleFirstInputAndMore() {
+    loadScreen(0);
+    firstNumber = "";
+    operator = undefined;
+    lastNumber = "";
+    eventExists = false;
+    numberContainer.removeEventListener('click', handleSecondInput);
+    numberContainer.addEventListener('click', handleFirstInput);
+}
+btnClear.addEventListener("click", handleFirstInputAndMore)
 
 
