@@ -31,6 +31,7 @@ const numberContainer = document.querySelector('.container')
 let firstNumber = "";
 let operator;
 let lastNumber = "";
+let eventExists = false;
 
 let conditionMovedOn = false;
 
@@ -51,63 +52,86 @@ function handleFirstInput(e) {
     loadScreen(firstNumber);
     return firstNumber;
 }
+function handleSecondInput(e) {
+    e.preventDefault();
+    if (!e.target.classList.contains('btn-number')) {
+        return;
+    }
+    const number = Number(e.target.textContent);
+    lastNumber += `${number}`;
+    loadScreen(lastNumber);
+    return lastNumber;
+}
 
 numberContainer.addEventListener('click', handleFirstInput)
 
+
 function switchToSecondVal(op) {
+    if (lastNumber !== "") { return }
+    loadScreen("0");
     numberContainer.removeEventListener('click', handleFirstInput);
     if (op !== undefined) { return };
-    numberContainer.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (!e.target.classList.contains('btn-number')) {
-            return;
-        }
-        const number = Number(e.target.textContent);
-        lastNumber += `${number}`;
-        loadScreen(lastNumber);
-        return lastNumber;
-    })
-
+    if (eventExists === true) { numberContainer.removeEventListener('click', handleSecondInput); }
+    numberContainer.addEventListener('click', handleSecondInput);
+    eventExists = true;
+    return eventExists
 }
 
-btnAdd.addEventListener('click', () => {
+
+function opButton1() {
     if (firstNumber === "") {
         return;
     }
     switchToSecondVal(operator);
+
     operator = 1;
     return operator;
-
-})
-btnSubtract.addEventListener('click', () => {
+}
+function opButton2() {
     if (firstNumber === "") {
         return;
     }
     switchToSecondVal(operator);
     operator = 2;
-    return operator
-
-})
-btnMultiply.addEventListener('click', () => {
+    return operator;
+}
+function opButton3() {
     if (firstNumber === "") {
         return;
     }
     switchToSecondVal(operator);
     operator = 3;
-    return operator
-})
-btnDivide.addEventListener('click', () => {
+    return operator;
+}
+function opButton4() {
     if (firstNumber === "") {
         return;
     }
     switchToSecondVal(operator);
     operator = 4;
-    return operator
-})
+    return operator;
+}
 
 
-btnEquals.addEventListener("click", () => {
+
+btnAdd.addEventListener('click', opButton1);
+btnSubtract.addEventListener('click', opButton2);
+btnMultiply.addEventListener('click', opButton3);
+btnDivide.addEventListener('click', opButton4);
+
+
+
+function buttonEquals() {
     const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
     let result = operatorArr[operator - 1]();
     loadScreen(result);
-})
+    firstNumber = result;
+    result = 0;
+    operator = undefined;
+    lastNumber = "";
+
+}
+
+btnEquals.addEventListener("click", buttonEquals);
+
+
