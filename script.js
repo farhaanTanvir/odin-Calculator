@@ -39,7 +39,7 @@ let resultDisplayed = false;
 const ops = ["add", "subtract", "multiply", "divide"]
 
 function loadScreen(num) {
-    display.innerText = num;
+    display.innerText = '' + num;
 }
 
 
@@ -133,7 +133,7 @@ function buttonEquals() {
         if (Number(lastNumber) === 0 && operator === 4) { alert("You cannot divide by zero."); return }
         const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
         let result = operatorArr[operator - 1]();
-        loadScreen(result);
+        loadScreen(Number(result.toFixed(4)));
         numberContainer.removeEventListener('click', handleSecondInput);
         numberContainer.addEventListener('click', handleFirstInput);
 
@@ -157,9 +157,10 @@ function handleFirstInputAndMore() {
     numberContainer.removeEventListener('click', handleSecondInput);
     numberContainer.addEventListener('click', handleFirstInput);
 }
+
 btnClear.addEventListener("click", () => {
     handleFirstInputAndMore();
-
 })
+
 
 
