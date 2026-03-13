@@ -32,7 +32,6 @@ let firstNumber = "";
 let operator;
 let lastNumber = "";
 let eventExists = false;
-/* let conditionMovedOn = false; */
 let resultDisplayed = false;
 
 
