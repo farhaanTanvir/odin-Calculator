@@ -32,7 +32,9 @@ let firstNumber = "";
 let operator;
 let lastNumber = "";
 let eventExists = false;
-let conditionMovedOn = false;
+/* let conditionMovedOn = false; */
+let resultDisplayed = false;
+
 
 const ops = ["add", "subtract", "multiply", "divide"]
 
@@ -45,6 +47,10 @@ function handleFirstInput(e) {
     e.preventDefault();
     if (!e.target.classList.contains('btn-number')) {
         return;
+    }
+    if (resultDisplayed === true) {
+        firstNumber = "";
+        resultDisplayed = false;
     }
     const number = Number(e.target.textContent);
     firstNumber += `${number}`;
@@ -70,7 +76,9 @@ function switchToSecondVal(op) {
     loadScreen("0");
     numberContainer.removeEventListener('click', handleFirstInput);
     if (op !== undefined) { return };
-    if (eventExists === true) { numberContainer.removeEventListener('click', handleSecondInput); }
+    if (eventExists === true) {
+        numberContainer.removeEventListener('click', handleSecondInput);
+    }
     numberContainer.addEventListener('click', handleSecondInput);
     eventExists = true;
     return eventExists
@@ -126,6 +134,11 @@ function buttonEquals() {
         const operatorArr = [function add() { return Number(firstNumber) + Number(lastNumber) }, function subtract() { return Number(firstNumber) - Number(lastNumber) }, function multiply() { return Number(firstNumber) * Number(lastNumber) }, function divide() { return Number(firstNumber) / Number(lastNumber) }];
         let result = operatorArr[operator - 1]();
         loadScreen(result);
+        numberContainer.removeEventListener('click', handleSecondInput);
+        numberContainer.addEventListener('click', handleFirstInput);
+
+
+        resultDisplayed = true;
         firstNumber = result;
         result = 0;
         operator = undefined;
